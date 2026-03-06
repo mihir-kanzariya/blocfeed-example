@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "blocfeed": "^0.11.3",
+    "blocfeed": "^0.12.0",
     "framer-motion": "^12.0.0",
     "next": "^15.0.0",
     "react": "^19.0.0",
