@@ -104,6 +104,127 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Pricing cards */}
+      <section style={{ marginBottom: 48 }}>
+        <h2 style={{ fontSize: 24, fontWeight: 600, marginBottom: 16 }}>
+          Pricing Cards
+        </h2>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
+          <PricingCard
+            name="Starter"
+            price="Free"
+            features={["10 feedback credits", "1 project", "Element screenshots", "Email support"]}
+          />
+          <PricingCard
+            name="Pro"
+            price="$19/mo"
+            features={["Unlimited feedback", "5 projects", "Video recording", "Voice feedback", "Priority support"]}
+            highlighted
+          />
+          <PricingCard
+            name="Enterprise"
+            price="Custom"
+            features={["Unlimited everything", "SSO & SAML", "Dedicated support", "SLA guarantee", "Custom integrations"]}
+          />
+        </div>
+        <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 12 }}>
+          Pick any card, button, or price tag to see how nested elements are captured with component names.
+        </p>
+      </section>
+
+      {/* Dashboard mockup */}
+      <section style={{ marginBottom: 48 }}>
+        <h2 style={{ fontSize: 24, fontWeight: 600, marginBottom: 16 }}>
+          Dashboard Preview
+        </h2>
+        <div
+          data-blocfeed-component="DashboardMockup"
+          style={{
+            background: "var(--card-bg)",
+            border: "1px solid var(--border)",
+            borderRadius: 12,
+            overflow: "hidden",
+          }}
+        >
+          {/* Toolbar */}
+          <div
+            data-blocfeed-component="Toolbar"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "12px 20px",
+              borderBottom: "1px solid var(--border)",
+            }}
+          >
+            <div style={{ display: "flex", gap: 8 }}>
+              <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#e53e3e" }} />
+              <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#ecc94b" }} />
+              <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#48bb78" }} />
+            </div>
+            <div style={{ display: "flex", gap: 8 }}>
+              <TabButton label="Overview" active />
+              <TabButton label="Feedback" />
+              <TabButton label="Settings" />
+            </div>
+            <button
+              data-blocfeed-component="NotificationBell"
+              data-testid="notification-btn"
+              style={{ ...buttonBase, background: "transparent", color: "var(--muted)", padding: "6px 10px", fontSize: 16 }}
+            >
+              🔔
+            </button>
+          </div>
+
+          {/* Stats row */}
+          <div
+            data-blocfeed-component="StatsRow"
+            style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 1, background: "var(--border)" }}
+          >
+            <StatBox label="Total Feedback" value="1,284" change="+12%" />
+            <StatBox label="Open Bugs" value="23" change="-5%" positive={false} />
+            <StatBox label="Feature Requests" value="89" change="+24%" />
+            <StatBox label="Avg Response" value="2.4h" change="-18%" />
+          </div>
+
+          {/* Feedback list */}
+          <div style={{ padding: 20 }}>
+            <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 12, color: "var(--muted)" }}>
+              Recent Feedback
+            </h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <FeedbackRow
+                category="bug"
+                title="Login button not responding on mobile Safari"
+                user="sarah@acme.com"
+                time="2m ago"
+              />
+              <FeedbackRow
+                category="feature"
+                title="Add dark mode toggle to settings page"
+                user="mike@startup.io"
+                time="15m ago"
+              />
+              <FeedbackRow
+                category="ux"
+                title="Onboarding flow is confusing at step 3"
+                user="lisa@design.co"
+                time="1h ago"
+              />
+              <FeedbackRow
+                category="bug"
+                title="Charts not rendering with large datasets"
+                user="dev@bigcorp.com"
+                time="3h ago"
+              />
+            </div>
+          </div>
+        </div>
+        <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 12 }}>
+          This is a mock dashboard UI. Try picking individual stats, feedback rows, tabs, or the notification bell.
+        </p>
+      </section>
+
       {/* Footer */}
       <footer style={{ borderTop: "1px solid var(--border)", paddingTop: 24, textAlign: "center" }}>
         <p style={{ color: "var(--muted)", fontSize: 13 }}>
@@ -191,3 +312,181 @@ const kbdStyle: React.CSSProperties = {
   fontSize: 12,
   fontFamily: "monospace",
 };
+
+function PricingCard({
+  name,
+  price,
+  features,
+  highlighted = false,
+}: {
+  name: string;
+  price: string;
+  features: string[];
+  highlighted?: boolean;
+}) {
+  return (
+    <div
+      data-blocfeed-component={`PricingCard-${name}`}
+      style={{
+        background: "var(--card-bg)",
+        border: highlighted ? "2px solid var(--accent)" : "1px solid var(--border)",
+        borderRadius: 12,
+        padding: 24,
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+      }}
+    >
+      {highlighted && (
+        <span
+          style={{
+            position: "absolute",
+            top: -10,
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "var(--accent)",
+            color: "#000",
+            fontSize: 11,
+            fontWeight: 600,
+            padding: "2px 12px",
+            borderRadius: 10,
+          }}
+        >
+          Popular
+        </span>
+      )}
+      <h3 style={{ fontSize: 18, fontWeight: 600, marginBottom: 4 }}>{name}</h3>
+      <p style={{ fontSize: 28, fontWeight: 700, marginBottom: 16 }}>
+        {price}
+        {price !== "Free" && price !== "Custom" && (
+          <span style={{ fontSize: 14, fontWeight: 400, color: "var(--muted)" }}>/mo</span>
+        )}
+      </p>
+      <ul style={{ listStyle: "none", padding: 0, flex: 1, marginBottom: 16 }}>
+        {features.map((f) => (
+          <li key={f} style={{ fontSize: 13, color: "var(--muted)", padding: "4px 0", display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ color: "var(--accent)" }}>&#10003;</span> {f}
+          </li>
+        ))}
+      </ul>
+      <button
+        data-blocfeed-component={`${name}CTA`}
+        data-testid={`pricing-${name.toLowerCase()}-btn`}
+        style={{
+          ...buttonBase,
+          width: "100%",
+          background: highlighted ? "var(--accent)" : "transparent",
+          color: highlighted ? "#000" : "var(--fg)",
+          border: highlighted ? "none" : "1px solid var(--border)",
+          fontWeight: 600,
+        }}
+      >
+        {name === "Enterprise" ? "Contact Sales" : "Get Started"}
+      </button>
+    </div>
+  );
+}
+
+function TabButton({ label, active = false }: { label: string; active?: boolean }) {
+  return (
+    <button
+      data-blocfeed-component={`Tab-${label}`}
+      style={{
+        ...buttonBase,
+        padding: "6px 14px",
+        fontSize: 13,
+        background: active ? "var(--accent)" : "transparent",
+        color: active ? "#000" : "var(--muted)",
+        fontWeight: active ? 600 : 400,
+        border: "none",
+        borderRadius: 6,
+      }}
+    >
+      {label}
+    </button>
+  );
+}
+
+function StatBox({
+  label,
+  value,
+  change,
+  positive = true,
+}: {
+  label: string;
+  value: string;
+  change: string;
+  positive?: boolean;
+}) {
+  return (
+    <div
+      data-blocfeed-component={`Stat-${label.replace(/\s/g, "")}`}
+      style={{ background: "var(--card-bg)", padding: 16 }}
+    >
+      <p style={{ fontSize: 11, color: "var(--muted)", marginBottom: 4, textTransform: "uppercase", letterSpacing: 0.5 }}>
+        {label}
+      </p>
+      <p style={{ fontSize: 22, fontWeight: 700 }}>{value}</p>
+      <p style={{ fontSize: 12, color: positive ? "#48bb78" : "#e53e3e", marginTop: 2 }}>
+        {change}
+      </p>
+    </div>
+  );
+}
+
+function FeedbackRow({
+  category,
+  title,
+  user,
+  time,
+}: {
+  category: "bug" | "feature" | "ux";
+  title: string;
+  user: string;
+  time: string;
+}) {
+  const categoryColors = {
+    bug: { bg: "rgba(229, 62, 62, 0.15)", color: "#e53e3e", label: "Bug" },
+    feature: { bg: "rgba(18, 211, 147, 0.15)", color: "var(--accent)", label: "Feature" },
+    ux: { bg: "rgba(236, 201, 75, 0.15)", color: "#ecc94b", label: "UX" },
+  };
+
+  const cat = categoryColors[category];
+
+  return (
+    <div
+      data-blocfeed-component={`FeedbackRow-${category}`}
+      data-testid={`feedback-${category}`}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
+        padding: "10px 12px",
+        borderRadius: 8,
+        border: "1px solid var(--border)",
+        cursor: "pointer",
+      }}
+    >
+      <span
+        style={{
+          fontSize: 10,
+          fontWeight: 600,
+          padding: "3px 8px",
+          borderRadius: 4,
+          background: cat.bg,
+          color: cat.color,
+          textTransform: "uppercase",
+          letterSpacing: 0.5,
+          flexShrink: 0,
+        }}
+      >
+        {cat.label}
+      </span>
+      <span style={{ fontSize: 13, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+        {title}
+      </span>
+      <span style={{ fontSize: 11, color: "var(--muted)", flexShrink: 0 }}>{user}</span>
+      <span style={{ fontSize: 11, color: "var(--muted)", flexShrink: 0 }}>{time}</span>
+    </div>
+  );
+}
